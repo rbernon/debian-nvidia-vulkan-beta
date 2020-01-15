@@ -1,6 +1,6 @@
 NVIDIA_VERSION = 440.44
 
-NVIDIA_BETA_VERSION = 440.43.02
+NVIDIA_BETA_VERSION = 440.48.02
 NVIDIA_BETA_PKG = nvidia-graphics-drivers-$(NVIDIA_BETA_VERSION)
 NVIDIA_BETA_TAR = nvidia-graphics-drivers_$(NVIDIA_BETA_VERSION)
 NVIDIA_BETA_URL = https://developer.nvidia.com/vulkan-beta-$(subst .,,$(NVIDIA_BETA_VERSION))-linux
