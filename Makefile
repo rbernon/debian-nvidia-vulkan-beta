@@ -27,6 +27,7 @@ nvidia-graphics-drivers-$(NVIDIA_VERSION):
 $(NVIDIA_BETA_PKG): nvidia-graphics-drivers-$(NVIDIA_VERSION) $(NVIDIA_BETA_TAR).orig.tar.gz $(NVIDIA_BETA_TAR).orig-amd64.tar.gz
 	rm -rf $@
 	cd nvidia-graphics-drivers-$(NVIDIA_VERSION) && uupdate -b -f -v $(NVIDIA_BETA_VERSION)
+	cp kernel-5.6.patch "$@/debian/patches/" && echo kernel-5.6.patch >> "$@/debian/patches/series-postunpack"
 	-cd "$@" && (make -f debian/rules nv-readme.ids; cp nv-readme.ids debian)
 	cd "$@" && dpkg-buildpackage -j12 --build=binary --post-clean
 	cd "$@" && dpkg-buildpackage -j12 -a i386 --build=any --post-clean
