@@ -55,12 +55,12 @@ install: dpkg-install apt-hold
 
 .PHONY: dpkg-install
 dpkg-install:
-	dpkg -i *$(NVIDIA_BETA_VERSION)-1_{amd64,i386}.deb
+	dpkg -i *$(NVIDIA_BETA_VERSION)-1_*.deb
 
 .PHONY: apt-hold
 apt-hold:
-	apt-mark hold $$(ls -1 *440.66.17-1_{amd64,i386}.deb | perl -ne '/^([\w-]*)_[\d-\.]*_(\w*)\.deb$$/ && print "$$1:$$2\n"')
+	apt-mark hold $$(ls -1 *440.66.17-1_*.deb | perl -ne '/^([\w-]*)_[\d-\.]*_(\w*)\.deb$$/ && print "$$1:$$2\n"')
 
 .PHONY: apt-unhold
 apt-unhold:
-	apt-mark unhold $$(ls -1 *440.66.17-1_{amd64,i386}.deb | perl -ne '/^([\w-]*)_[\d-\.]*_(\w*)\.deb$$/ && print "$$1:$$2\n"')
+	apt-mark unhold $$(ls -1 *440.66.17-1_*.deb | perl -ne '/^([\w-]*)_[\d-\.]*_(\w*)\.deb$$/ && print "$$1:$$2\n"')
