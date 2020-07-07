@@ -7,6 +7,7 @@ NVIDIA_BETA_TAR = nvidia-graphics-drivers_$(NVIDIA_BETA_VERSION)
 NVIDIA_BETA_URL = https://developer.nvidia.com/vulkan-beta-$(subst .,,$(NVIDIA_BETA_VERSION))-linux
 NVIDIA_BETA_SRC = NVIDIA-Linux-x86_64-$(NVIDIA_BETA_VERSION).run
 
+.PHONY: all
 all: $(NVIDIA_BETA_PKG)
 
 $(NVIDIA_BETA_PKG).orig-amd64/$(NVIDIA_BETA_SRC): $(shell mkdir -p $(NVIDIA_BETA_PKG).orig-amd64)
