@@ -44,3 +44,8 @@ $(NVIDIA_BETA_PKG): nvidia-graphics-drivers-$(NVIDIA_VERSION) $(NVIDIA_BETA_TAR)
 	   xserver-xorg-video-nvidia_$(NVIDIA_BETA_VERSION)-1_i386.deb
 
 	@echo "Now run 'sudo dpkg -i *$(NVIDIA_BETA_VERSION)-1_{amd64,i386}.deb' to install all the packages."
+
+.PHONY: clean
+clean:
+	rm -rf nvidia-beta-drivers*
+	rm -f *.deb
