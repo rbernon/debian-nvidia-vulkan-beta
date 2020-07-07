@@ -47,7 +47,7 @@ $(NVIDIA_BETA_PKG): nvidia-graphics-drivers-$(NVIDIA_VERSION) $(NVIDIA_BETA_TAR)
 
 .PHONY: clean
 clean:
-	rm -rf nvidia-beta-drivers*
+	rm -rf nvidia-graphics-drivers*
 	rm -f *.deb
 
 .PHONY: install
