@@ -1,5 +1,5 @@
-NVIDIA_VERSION = 440.82
-NVIDIA_VERSION_DEB = 2
+NVIDIA_VERSION = 440.100
+NVIDIA_VERSION_DEB = 1
 
 NVIDIA_BETA_VERSION = 440.66.17
 NVIDIA_BETA_PKG = nvidia-graphics-drivers-$(NVIDIA_BETA_VERSION)
@@ -29,6 +29,9 @@ $(NVIDIA_BETA_PKG): nvidia-graphics-drivers-$(NVIDIA_VERSION) $(NVIDIA_BETA_TAR)
 	rm -rf $@
 	cd nvidia-graphics-drivers-$(NVIDIA_VERSION) && uupdate -b -f -v $(NVIDIA_BETA_VERSION)
 	cp kernel-5.6.patch "$@/debian/patches/" && echo kernel-5.6.patch >> "$@/debian/patches/series-postunpack"
+	cp kernel-5.7.patch "$@/debian/patches/" && echo kernel-5.7.patch >> "$@/debian/patches/series-postunpack"
+	# Remove patch incompatible with beta
+	rm "$@/debian/module/debian/patches/kernel-5.7.0-set-memory-array.patch" && sed -i '/kernel-5.7.0-set-memory-array.patch/d' "$@/debian/module/debian/patches/series.in"
 	-cd "$@" && (make -f debian/rules nv-readme.ids; cp nv-readme.ids debian)
 	cd "$@" && dpkg-buildpackage -j12 --build=binary --post-clean
 	cd "$@" && dpkg-buildpackage -j12 -a i386 --build=any --post-clean
