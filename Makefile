@@ -1,7 +1,8 @@
-NVIDIA_VERSION = 440.100
+
+NVIDIA_VERSION = 450.51
 NVIDIA_VERSION_DEB = 1
 
-NVIDIA_BETA_VERSION = 440.66.17
+NVIDIA_BETA_VERSION = 450.56.01
 NVIDIA_BETA_PKG = nvidia-graphics-drivers-$(NVIDIA_BETA_VERSION)
 NVIDIA_BETA_TAR = nvidia-graphics-drivers_$(NVIDIA_BETA_VERSION)
 NVIDIA_BETA_URL = https://developer.nvidia.com/vulkan-beta-$(subst .,,$(NVIDIA_BETA_VERSION))-linux
@@ -28,11 +29,9 @@ nvidia-graphics-drivers-$(NVIDIA_VERSION):
 $(NVIDIA_BETA_PKG): nvidia-graphics-drivers-$(NVIDIA_VERSION) $(NVIDIA_BETA_TAR).orig.tar.gz $(NVIDIA_BETA_TAR).orig-amd64.tar.gz
 	rm -rf $@
 	cd nvidia-graphics-drivers-$(NVIDIA_VERSION) && uupdate -b -f -v $(NVIDIA_BETA_VERSION)
-	cp kernel-5.6.patch "$@/debian/patches/" && echo kernel-5.6.patch >> "$@/debian/patches/series-postunpack"
-	cp kernel-5.7.patch "$@/debian/patches/" && echo kernel-5.7.patch >> "$@/debian/patches/series-postunpack"
-	# Remove patch incompatible with beta
-	rm "$@/debian/module/debian/patches/kernel-5.7.0-set-memory-array.patch" && sed -i '/kernel-5.7.0-set-memory-array.patch/d' "$@/debian/module/debian/patches/series.in"
 	-cd "$@" && (make -f debian/rules nv-readme.ids; cp nv-readme.ids debian)
+	-cd "$@" && (sed -re '/ARCH_LIST.*arm64/d' -i debian/rules.defs)
+	-cd "$@" && dpkg-buildpackage -j12 --build=binary --post-clean
 	cd "$@" && dpkg-buildpackage -j12 --build=binary --post-clean
 	cd "$@" && dpkg-buildpackage -j12 -a i386 --build=any --post-clean
 
@@ -45,7 +44,7 @@ $(NVIDIA_BETA_PKG): nvidia-graphics-drivers-$(NVIDIA_VERSION) $(NVIDIA_BETA_TAR)
 	   nvidia-driver_$(NVIDIA_BETA_VERSION)-1_i386.deb \
 	   nvidia-smi_$(NVIDIA_BETA_VERSION)-1_i386.deb \
 	   xserver-xorg-video-nvidia_$(NVIDIA_BETA_VERSION)-1_i386.deb
-
+     
 	@echo "Now run 'sudo make install' to install all the packages."
 
 .PHONY: clean
@@ -67,3 +66,6 @@ apt-hold:
 .PHONY: apt-unhold
 apt-unhold:
 	apt-mark unhold $$(ls -1 *$(NVIDIA_BETA_VERSION)-1_*.deb | perl -ne '/^([\w-]*)_[\d-\.]*_(\w*)\.deb$$/ && print "$$1:$$2\n"')
+
+.PHONY: $(NVIDIA_BETA_PKG)
+
