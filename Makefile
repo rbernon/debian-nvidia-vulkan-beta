@@ -38,10 +38,11 @@ $(NVIDIA_BETA_PKG): nvidia-graphics-drivers-$(NVIDIA_VERSION) $(NVIDIA_BETA_TAR)
 	   nvidia-nonglvnd-vulkan-common_$(NVIDIA_BETA_VERSION)-1_amd64.deb \
 	   nvidia-nonglvnd-vulkan-common_$(NVIDIA_BETA_VERSION)-1_i386.deb \
 	   nvidia-libopencl1_$(NVIDIA_BETA_VERSION)-1_amd64.deb \
-	   nvidia-libopencl1_$(NVIDIA_BETA_VERSION)-1_i386.deb \
-	   nvidia-driver_$(NVIDIA_BETA_VERSION)-1_i386.deb \
-	   nvidia-smi_$(NVIDIA_BETA_VERSION)-1_i386.deb \
-	   xserver-xorg-video-nvidia_$(NVIDIA_BETA_VERSION)-1_i386.deb
+	   nvidia-libopencl1_$(NVIDIA_BETA_VERSION)-1_i386.deb
+	   # These don't seem to get built as of 450.57. the i386 versions of these in experimental are still on 450.51
+	   #nvidia-driver_$(NVIDIA_BETA_VERSION)-1_i386.deb \
+	   #nvidia-smi_$(NVIDIA_BETA_VERSION)-1_i386.deb \
+	   #xserver-xorg-video-nvidia_$(NVIDIA_BETA_VERSION)-1_i386.deb
 
 	@echo "Now run 'sudo dpkg -i *$(NVIDIA_BETA_VERSION)-1_{amd64,i386}.deb' to install all the packages."
 .PHONY: $(NVIDIA_BETA_PKG)
